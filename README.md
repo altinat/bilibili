@@ -1,5 +1,5 @@
-# Bilibili Bangumi Downloader - [Latest release](https://github.com/proflylab/bilibili/releases)
-
+# Bilibili Bangumi Downloader
+forked from [proflylab](https://github.com/proflylab/bilibili)
 ### Work in progress
 
 - [x] Bilibili subtitle format (.json)
@@ -67,7 +67,7 @@ Options:
   -v, --version  Display version number
 ```
 
-### How to build
+### Build
 
 ```sh
 deno compile --unstable ./src/app.ts
