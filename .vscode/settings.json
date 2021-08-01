@@ -3,8 +3,11 @@
   "deno.unstable": true,
   "deno.lint": true,
   "deno.import_intellisense_origins": {
-      "https://deno.land": true
+    "https://deno.land": true
   },
   "editor.defaultFormatter": "denoland.vscode-deno",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true
+  }
 }

@@ -1,55 +1,48 @@
 import { cac, path } from "../deps.ts";
-import { bbJsonToSrt } from "./utils/index.ts";
+import { emptyDir } from "https://deno.land/std@0.103.0/fs/mod.ts";
+import { exec } from "https://deno.land/x/exec/mod.ts";
+//import { bbJsonToSrt } from "./utils/index.ts";
 
 const cli = cac("bilibili");
 
 cli
-  .command("epinfo <epId>", "View EP info")
-  .action(async (epId, options) => {
+  .command("info <epId>", "View epinfo")
+  .action(async (epId) => {
     await fetch(
       `https://api.global.bilibili.com/intl/gateway/web/view?oid=${epId}&tp=3&s_locale=th_TH`,
     )
       .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => {
+      .then((res) => console.log(res)).catch((err) => {
         console.error(err);
       });
   });
 
 cli
-  .command("sub <epId>", "Get subtitle")
+  .command("get <epId>", "Get subtitle")
   .action(async (epId, options) => {
-    await fetch(
+    const res = await fetch(
       `https://api.biliintl.com/intl/gateway/m/subtitle?build=1&ep_id=${epId}&s_locale=th_TH`,
-    )
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => {
-        console.error(err);
-      });
+    );
+    emptyDir(`./${epId}`);
+    const { data: { subtitles } } = await res.json();
 
-    // deno-lint-ignore no-explicit-any
-    //subtitles.map(async (item: any) => {
-    // const { key, url } = item;
-    // const dest = `[${key}] ${path.basename(url).replace(".json", ".srt")}`;
-    //  const res = await fetch(url);
-    //  const data = await res.json();
-    // bbJsonToSrt(dest, data);
-    //  console.log(dest);
-    //});
+    // deno-lint-ignore require-await
+    subtitles.map(async (item: any) => {
+      const { key, url } = item;
+      const dest = `[${key}] ${url}`;
+      exec(`curl -o "./${epId}/${key}.json" ${url}`);
+      console.log(dest);
+    });
   });
 
 cli
   .command("vid <epId>", "Video Download (Soon)")
   .action(async (epId, options) => {
-    await fetch(
-      `https://api.biliintl.com/intl/gateway/web/playurl?&device=wap&ep_id=${epId}&platform=web&qn=64&s_locale=th_TH`,
-    )
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => {
-        console.error(err);
-      });
+    const res = await fetch(
+      `https://api.biliintl.com/intl/gateway/web/playurl?&device=wap&ep_id=${epId}&platform=web&qn=112&s_locale=th_TH`,
+    );
+    const { data: { playurl } } = await res.json();
+    console.log(playurl);
   });
 
 cli
