@@ -1,4 +1,4 @@
-import { cac, path } from "../deps.ts";
+import { cac } from "../deps.ts";
 import { emptyDir } from "https://deno.land/std@0.103.0/fs/mod.ts";
 import { exec } from "https://deno.land/x/exec/mod.ts";
 //import { bbJsonToSrt } from "./utils/index.ts";
@@ -12,13 +12,14 @@ cli
       `https://api.global.bilibili.com/intl/gateway/web/view?oid=${epId}&tp=3&s_locale=th_TH`,
     )
       .then((res) => res.json())
-      .then((res) => console.log(res)).catch((err) => {
+      .then((res) => console.log(res))
+      .catch((err) => {
         console.error(err);
       });
   });
 
 cli
-  .command("get <epId>", "Get subtitle")
+  .command("sub <epId>", "Get subtitle")
   .action(async (epId, options) => {
     const res = await fetch(
       `https://api.biliintl.com/intl/gateway/m/subtitle?build=1&ep_id=${epId}&s_locale=th_TH`,
@@ -30,7 +31,10 @@ cli
     subtitles.map(async (item: any) => {
       const { key, url } = item;
       const dest = `[${key}] ${url}`;
-      exec(`curl -o "./${epId}/${key}.json" ${url}`);
+      exec(`curl -o "./${epId}/${key}.json" ${url}`)
+        .catch((err) => {
+          console.error(err);
+        });
       console.log(dest);
     });
   });
@@ -66,6 +70,6 @@ cli
   });
 cli.help();
 
-cli.version("0.0.1");
+cli.version("0.0.1b");
 
 cli.parse();
