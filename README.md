@@ -1,49 +1,25 @@
 # Bilibili Bangumi Downloader
 forked from [proflylab](https://github.com/proflylab/bilibili)
-### Work in progress
+### TO DO: 
 
-- [x] Bilibili subtitle format (.json)
-- [x] Convert Bilibili subtitle format (.json) to (.srt)
-- [ ] Video 360p, 480p, 720p? coming soon
-- [ ] Audio coming soon
-
-### Install Deno
+- [ ] โฟลเดอร์ซับมีชื่อเรื่องที่ดาวนโหลด
+- [ ] ดาวน์โหลด Video
+- [ ] บันทึกการล็อกอิน ทำให้สามารถดาวนโหลดวิดีโอที่ความละเอียดมากกว่า 360p ได้
+- [ ] แปลง bilibili JSON เป็น ASS
+- [ ] merge MKV
+- [ ] Bunch Download 
+### ต้องการ
+Deno
 
 Shell (Mac, Linux):
-
 ```sh
 curl -fsSL https://deno.land/x/install/install.sh | sh
 ```
-
 PowerShell (Windows):
-
 ```powershell
 iwr https://deno.land/x/install/install.ps1 -useb | iex
 ```
-
-[Homebrew](https://formulae.brew.sh/formula/deno) (Mac):
-
-```sh
-brew install deno
-```
-
-[Chocolatey](https://chocolatey.org/packages/deno) (Windows):
-
-```powershell
-choco install deno
-```
-
-Build and install from source using [Cargo](https://crates.io/crates/deno):
-
-```sh
-cargo install deno
-```
-
-Read more https://github.com/denoland/deno/#deno
-
-### Getting Started
-
-First install denon if you don't exist
+เมื่อติดตั้ง Deno แล้วต้องติดตั้ง denon ตามคำสั่งนี้
 ```sh
 deno install -qAf --unstable https://deno.land/x/denon/denon.ts
 ```
@@ -53,13 +29,15 @@ Usage:
   $ bilibili <command> [options]
 
 Commands:
-  info <sId>  View info
-  get <epId>  Get subtitle
-  list        Lists of anime
+  info <epId>  View epinfo
+  sub <epId>   Get subtitle
+  vid <epId>   Video Download (Soon)
+  list         Lists of anime
 
 For more info, run any command with the `--help` flag:
   $ bilibili info --help
-  $ bilibili get --help
+  $ bilibili sub --help
+  $ bilibili vid --help
   $ bilibili list --help
 
 Options:
@@ -67,7 +45,7 @@ Options:
   -v, --version  Display version number
 ```
 
-### Build
+### บิวด์
 
 ```sh
 deno compile --unstable ./src/app.ts
